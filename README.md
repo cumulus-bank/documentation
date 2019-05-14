@@ -50,7 +50,7 @@ When you've completed this Code Pattern, you will understand how to:
 * Creating Ionic Mobile App
 ### App Screenshot
 
- ![99](img/99.png) 
+ ![99](img/app.png) 
 
 #### Flow
 1. *Mobile App*:- End user mobile app who will access the application. It leverages restful endpoints by backend microservices
