@@ -63,7 +63,7 @@ When you've completed this Code Pattern, you will understand how to:
 8. *MariaDB*:- NOSQL Database for booking microservice
 9. *ODM*:- IBM Operational Decision Manager is an advanced business rules management system that helps you capture, automate and govern frequent, repeatable business decisions and adds real-time decision making to your day-to-day operations
 
-![high](img/high_level_arch.png)
+![high](img/arch.png)
 
  #### Featured technologies
 1. [Angular](https://angular.io/):- Angular is a platform that makes it easy to build applications with the web. Angular combines declarative templates, dependency injection, end to end tooling, and integrated best practices to solve development challenges
