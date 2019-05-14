@@ -109,37 +109,41 @@ $ sudo nano /etc/hosts
 ```
 $ docker login <icpdns>:8500
 ```
+
+### Important note
+ * Each microservices has it own repo*
+
 ### Install all dependencies, create images and upload it to Private registery of IBM Cloud Private
-1. Booking Microservice
+1. Authentication Microservice
 ```s
-$ cd booking-microservice
+$ cd Authentication-microservice
 $ npm i
-$ docker build -t booking-microservice  --no-cache .
-$ docker tag booking-microservice  <icpdns>:8500/default/booking-microservice 
-$ docker push <icpdns>:8500/default/booking-microservice 
+$ docker build -t authentication-microservice  --no-cache .
+$ docker tag authentication-microservice  <icpdns>:8500/default/authentication-microservice 
+$ docker push <icpdns>:8500/default/authentication-microservice 
 ```
-2. Listing Mongo Microservice
+2. Accounts Microservice
 ```s
-$ cd listing-mongo-microservice
+$ cd Accounts-microservice
 $ npm i
-$ docker build -t listing-mongo-microservice  --no-cache .
-$ docker tag listing-mongo-microservice  <icpdns>:8500/default/listing-mongo-microservice 
-$ docker push <icpdns>:8500/default/listing-mongo-microservice 
+$ docker build -t accounts-microservice  --no-cache .
+$ docker tag accounts-microservice  <icpdns>:8500/default/accounts-microservice 
+$ docker push <icpdns>:8500/default/accounts-microservice 
 ```
-3. Authentication Microservice
+3. SMS Microservice
 ```s
-$ cd login-microservice
+$ cd SMS-microservice
 $ npm i
-$ docker build -t login-microservice  --no-cache .
-$ docker tag login-microservice  <icpdns>:8500/default/login-microservice 
-$ docker push <icpdns>:8500/default/login-microservice 
+$ docker build -t sms-microservice  --no-cache .
+$ docker tag sms-microservice  <icpdns>:8500/default/sms-microservice 
+$ docker push <icpdns>:8500/default/sms-microservice 
 ```
-4. Email Microservice
+4. AI Microservice
 ```s
-$ cd celery
-$ docker build -t celery  --no-cache .
-$ docker tag celery  <icpdns>:8500/default/celery 
-$ docker push <icpdns>:8500/default/celery 
+$ cd AI-microservice
+$ docker build -t ai-microservice  --no-cache .
+$ docker tag ai-microservice  <icpdns>:8500/default/ai-microservice 
+$ docker push <icpdns>:8500/default/ai-microservice 
 ```
 
 5. Odm Microservice
@@ -150,35 +154,6 @@ $ docker build -t odm-microservice  --no-cache .
 $ docker tag odm-microservice  <icpdns>:8500/default/odm-microservice 
 $ docker push <icpdns>:8500/default/odm-microservice 
 ```
-
-6. Angular Frontend
-> under src/app/provider/provider.ts. Find url and change it to your icp ip
-```s
-$ cd icp-frontend-new
-$ npm i
-$ docker build -t angular  --no-cache .
-$ docker tag angular  <icpdns>:8500/default/angular 
-$ docker push <icpdns>:8500/default/angular 
-```
-
-7. Ionic Frontend
-> under src/app/provider/provider.ts. Find url and change it to your icp ip
-```s
-$ cd icp-mobile
-$ npm i
-$ docker build -t ionic  --no-cache .
-$ docker tag ionic <icpdns>:8500/default/ionic 
-$ docker push <icpdns>:8500/default/ionic 
-```
-
-8. Map Microservice
-```s
-$ cd map-microservice
-$ npm i
-$ docker build -t map  --no-cache .
-$ docker tag map  <icpdns>:8500/default/map 
-$ docker push <icpdns>:8500/default/map 
-```
 > Find all your images in ```https://icpip:8443/console/manage/images``` 
 
 ![images](img/images.png)
@@ -188,7 +163,7 @@ $ docker push <icpdns>:8500/default/map
 2. Click on configure, click on copy, and paste all these commands in your terminal
 ![icp5](img/icp5.png)
 
-### Configuring Persistance storage in IBM Cloud Private for (DB2, MariaDB, MongoDB, RabbitMQ, and ODM)
+### Configuring Persistance storage in IBM Cloud Private for (DB2, MariaDB, MongoDB, and ODM)
 1. Login to IBM Cloud Private by going to this link ``` https://icplink:8443 ```
 
 ![icp1](img/icp1.png)
@@ -207,10 +182,8 @@ path: /anypath
 8. Click on create
 
 > Create Persistant volume using the steps above for
-* DB2
 * MariaDB
 * MongoDB
-* RabbitMQ
 * ODM 
 
 ### Deploy Istio
@@ -244,38 +217,6 @@ $ kubectl get pods -n istio-system
 
 ![icp18](img/icp18.png)
 
-
-### Deploying DB2
-1. Go to ```Catalog``` and filter ```db2```
-
-![icp4](img/icp4.png)
-
-2. Click on configure, fil up the required field and deploy
-3. Follow this [tutorial](https://developer.ibm.com/recipes/tutorials/deploy-db2-into-ibm-cloud-private/) to deploy db2 in IBM Cloud Private
-> Make sure your Table name is "Sample"
-
-> Make sure your username and password is "admin"
-
-> Deploy as clusterip
-
-### Database creation and configuration of DB2
-1. ssh to db2 pod
-```
-$ kubectl exec -it <podname> bash
-```
-2. switch the user you have created
-```
-$ su - <username>
-```
-3. Connect to SAMPLE db
-```s
-$ db2 connect to SAMPLE
-```
-4. Create UserData table to store user information
-* User Table
-```SQL
-db2 CREATE TABLE "SAMPLE.UserData (UserID int NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) , LastName varchar(255) NULL , FirstName varchar(255) NULL, Location varchar(255) NULL, Email varchar(255) NULL,  Password varchar(255) NULL, Age int NULL, Tier varchar(255) NULL, PRIMARY KEY (UserID))"
-```
 ### Deploying MariaDB
 1. Go to ```Catalog``` and filter ```mariadb```
 2. Click on configure, fil up the required field and deploy
@@ -298,10 +239,10 @@ $ mysql
 ```s
 $ use SAMPLE
 ```
-8. Create Booking Table
-* Booking Table
+8. Create User Table
+* User Table
 ```SQL
-CREATE TABLE SAMPLE.Booking (BookingID  MEDIUMINT NOT NULL AUTO_INCREMENT,TS TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL , Checkin varchar(255) NOT NULL, OfferNamePricing varchar(255) NOT NULL, OfferTypePricing varchar(255) NOT NULL , CostPricing varchar(255) NOT NULL, OfferNameUpgrade varchar(255) NOT NULL, OfferTypeUpgrade varchar(255) NOT NULL , CostNameUpgrade varchar(255) NOT NULL,  UserID INT NOT NULL, FlightID varchar(255) NOT NULL , PRIMARY KEY (BookingID));
+CREATE TABLE SAMPLE.Users (   Userid int NOT NULL AUTO_INCREMENT,  AccountName varchar(100) NOT NULL,  PhoneNumber varchar(15), Sex varchar (1) NOT NULL, Age int NOT NULL, Location varchar(50) NOT NULL, NoonTransactions int NOT NULL, AmazonTransactions int NOT NULL, SouqTransactions int NOT NULL, TotalTransactions int NOT NULL, WeekNumber int NOT NULL, PRIMARY KEY (Userid));
 ```
 ### Deploying MongoDB
 1. Go to ```Catalog``` and filter ```mongodb```
@@ -314,111 +255,37 @@ CREATE TABLE SAMPLE.Booking (BookingID  MEDIUMINT NOT NULL AUTO_INCREMENT,TS TIM
 
 > deploy as ClusterIP
 
-### Deploying RabbitMQ 
-1. Go to ```Catalog``` and filter ```rabbitmq```
-2. Select ```RabbitMQ```, Click ``` Configure```, fill the form and click on deploy
-> use clusterip
-
 ### Deploying ODM
-1. Go to ```Catalog``` and filter ```odm```
-2. Select ```odm```, Click ``` Configure```, fill the form and click on deploy
 
-### Configuring ODM and loading buisness rules
-1. Go to ``` http://icpip:odmport/teamserver/faces/login.jsp```, and login with *username*:- ```rtsAdmin```, and pass ```rtsAdmin```
-![icp11](img/icp11.png)
-
-2. Click on ```Configure``` tab, then click on ```import project```. Select the zip file under ```odm-microservice``` folder
-![icp12](img/icp12.png)
-
-3. Go to ``` http://icpip:odmport/decisioncenter/t/library```, and login with *username*:- ```rtsAdmin```, and pass ```rtsAdmin```
-4. Select ```New Release``` from ```ICPAirlines-Rules```, then select ```ICPAirlinesDeployment``` and click ```deploy```
-
-![icp12](img/icp13.png)
-
-![icp12](img/icp14.png)
-
-
-### Configuring and deploying secrets
-
-1. *UID* is ur database username
-2. *PASSWORD* is your database password
-3. *UIDMARIADB* is your mariadb username
-4. *PASSWORDMARIADB* is your mariadb password
-5. *MONGOUSERNAME* is your mongodb username
-6. *MONGOPASSWORD* is your mongodb password
-7. *SECRET* is your unique secret you give for your app for jwt authentication
-8. *EMAILUSERNAME* is your gmail email username from which email would be sent
-9. *EMAILPASSWORD* is your email password of your gmail email
-10. Navigate to ```secrets``` folder in ```configMaps-secrets/secrets```
-11. Deploy secrets to kubernetes, navigate to folder icp-backend/configMaps-secrets-istio-calico/secrets
-```
-$ kubectl create -f secrets.yml
-```
-8. If you need to redeploy with certain changes
-```
-$ kubectl apply -f secrets.yml
-```
-> NOTE:- all these are base64 represenation encoding. 
-```
-$ echo -n 'admin' | base64
-YWRtaW4=
-```
-### Configuring and deploying config-maps
-1. *DATABASE*:- is your database name, which should be SAMPLE
-2. *PORT*:- is your exposed db2 port from port 5000, get this port by running and finding db2 service
-3. *HOSTNAME*:- is your db2 service name of db2
-4. *ODM*:- is your ODM api, replace dns with your service name of odm 
-5. *CELERY_RESULT_BACKEND*:- replace dns with ur rabbitmq service name
-6. *HOSTNAMEMARIADB*:- replace with mariadb servicename
-7. *HOSTNAMEMONGODB*:- replace with mongodb servicename
-8. *APPID*:-  your here map appid
-9. *APPCODE*:- your here map appcode
+complete this
 
 ### Deploying microservices through helm
-1. Booking Microservice
+1. Authentication Microservice
 ```s
-$ cd booking-microservice/chart
-$ helm install ./booking-microservice-0.1.0.tgz --name="bookingsvc" --tls
+$ cd authentication-microservice/chart
+$ helm install ./authentication-microservice --name="authsvc" --tls
 ```
-2. Listing Microservice
+2. Accounts Microservice
 ```s
-$ cd listing-microservice/chart
-$ helm install ./listing-microservice-0.1.0.tgz --name="listingsvc" --tls
+$ cd accounts-microservice/chart
+$ helm install ./accounts-microservice --name="accsvc" --tls
 ```
-3. Authentication Microservice
+3. SMS Microservice
 ```s
-$ cd login-microservice/chart
-$ helm install ./login-microservice-0.1.0.tgz --name="loginsvc" --tls
+$ cd sms-microservice/chart
+$ helm install ./sms-microservice--name="smssvc" --tls
 ```
 
-4. Celery Microservice
+4. AI Microservice
 ```s
-$ cd celery/chart
-$ helm install ./celery-0.1.0.tgz --name="celerysvc" --tls
+$ cd  ai-microservice/chart
+$ helm install ./ai-microservice --name="aisvc" --tls
 ```
 
 5. Odm Microservice
 ```s
-$ cd odm-microservice/chart
-$ helm install ./odm-microservice-0.1.0.tgz --name="odmsvc" --tls
-```
-
-6. Map Microservice
-```s
-$ cd map-microservice/chart
-$ helm install ./map-microservice-0.1.0.tgz --name="mapsvc" --tls
-```
-
-7. Angular Frontend
-```s
-$ cd icp-frontend-new/chart
-$ helm install ./angular-microservice-0.1.0.tgz --name="angular" --tls
-```
-
-8. Ionic Frontend
-```s
-$ cd icp-mobile/chart
-$ helm install ./ionic-microservice-0.1.0.tgz --name="ionic" --tls
+$ cd ODM-microservice/chart
+$ helm install ./odm-microservice --name="odmsvc" --tls
 ```
 
 ### Cross Platform Mobile App
@@ -437,17 +304,5 @@ $ ionic cordova prepare android
 ```
 
 ### Enable Istio-Gateway and Virtual Services
-1. Navigate to ``` icp-backend/configMaps-secrets-istio-calico ```
-2. kubectl apply -f istio/
-
-### Microservices available 
-* [x] Booking Microservice [:31380/bookingsvc/]
-* [x] Listing Microservice [:31380/listingsvc/]
-* [x] Authentication Microservice [:31380/loginsvc/]
-* [x] Angular Frontend [:31380/icpairways/]
-* [x] Celery Microservice [:31380/emailsvc/]
-* [x] Odm Microservice [:31380/odmsvc/]
-* [x] Map Microservice [:31380/mapsvc/]
-
-# Docs
-Documentation of all the backend endpoints is available [here](apidocs/README.md)
+1. Navigate to istio repo
+2. kubectl apply -f gateway.yaml
