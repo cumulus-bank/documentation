@@ -241,6 +241,7 @@ $ use SAMPLE
 ```SQL
 CREATE TABLE SAMPLE.Users (   Userid int NOT NULL AUTO_INCREMENT,  AccountName varchar(100) NOT NULL,  PhoneNumber varchar(15), Sex varchar (1) NOT NULL, Age int NOT NULL, Location varchar(50) NOT NULL, NoonTransactions int NOT NULL, AmazonTransactions int NOT NULL, SouqTransactions int NOT NULL, TotalTransactions int NOT NULL, WeekNumber int NOT NULL, PRIMARY KEY (Userid));
 ```
+
 ### Deploying MongoDB
 1. Go to ```Catalog``` and filter ```mongodb```
 
