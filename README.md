@@ -239,7 +239,7 @@ $ use SAMPLE
 8. Create User Table
 * User Table
 ```SQL
-CREATE TABLE SAMPLE.Users (   Userid int NOT NULL AUTO_INCREMENT,  AccountName varchar(100) NOT NULL,  PhoneNumber varchar(15), Sex varchar (1) NOT NULL, Age int NOT NULL, Location varchar(50) NOT NULL, NoonTransactions int NOT NULL, AmazonTransactions int NOT NULL, SouqTransactions int NOT NULL, TotalTransactions int NOT NULL, WeekNumber int NOT NULL, PRIMARY KEY (Userid));
+CREATE TABLE SAMPLE.UserData (UserID  MEDIUMINT NOT NULL AUTO_INCREMENT , LastName varchar(255) NOT NULL, FirstName varchar(255) NOT NULL, Email varchar(255) NOT NULL , Password varchar(255) NOT NULL, Age int NOT NULL, Mobile varchar(255) NOT NULL  , PRIMARY KEY (UserID));
 ```
 
 ### Deploying MongoDB
