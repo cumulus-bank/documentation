@@ -304,6 +304,3 @@ $ ionic cordova prepare android
 ### Enable Istio-Gateway and Virtual Services
 1. Navigate to istio repo
 2. kubectl apply -f gateway.yaml
-
-
-> oc export dc,svc,configmap,hpa,bc,is -l app=aisvc --as-template=ai-microservice -o yaml > ai-microservice.yaml
