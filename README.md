@@ -3,12 +3,12 @@
 #  Cumulus Bank
 <h1 align="center">
   <br>
-      Banking Application based on IBM Cloud Private 
+      Banking Application based on Openshift
   <br>
   <br>
 </h1>
 
-<h4 align="center">Powered by IBM Cloud Private</h4>
+<h4 align="center">Powered by Openshift</h4>
 
 <p align="center">
   <a>
@@ -18,7 +18,7 @@
 </p>
 <br>
 
-# Building an Airline Booking Application based on Microservices Architecture on IBM Cloud Private
+# Building an Banking Application based on Microservices Architecture on IBM Cloud Private
 ### Introduction
 
 In this Code Pattern, we will build a cloud native application based on microservice architecture, IBM Middlewares and following 12 factor practices. This application is an Airline Booking app, and the technologies behind this app are:- 
