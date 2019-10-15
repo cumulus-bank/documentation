@@ -18,7 +18,7 @@
 </p>
 <br>
 
-# Building an Banking Application based on Microservices Architecture on IBM Cloud Private
+# Building an Banking Application based on Microservices Architecture on Openshift
 ### Introduction
 
 In this Code Pattern, we will build a cloud native application based on microservice architecture, IBM Middlewares and following 12 factor practices. This application is an Airline Booking app, and the technologies behind this app are:- 
